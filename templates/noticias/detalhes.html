@@ -1,0 +1,68 @@
+{% extends 'noticias/base.html' %}
+{% load static %}
+
+{% block content %}
+<div id="app" class="d-flex flex-column min-vh-100">
+    <main class="flex-grow-1 container-fluid container-lg py-5">
+        <div class="row g-5">
+            <!-- Coluna Principal (Conteúdo da Notícia) -->
+            <div class="col-lg-8">
+                <!-- Detalhes da Notícia -->
+                <article class="card p-4 shadow-lg">
+                    <!-- Título da Notícia -->
+                    <h1 class="fs-2 fw-bolder mb-3 text-primary">{{ noticia.titulo }}</h1>
+
+                    <!-- Informações de Metadados (Categoria, Data, Autor) -->
+                    <div class="small text-muted mb-4 border-bottom pb-3">
+                        <span class="fw-bold text-info">{{ noticia.categoria.nome|upper }}</span>
+                        <span>•</span>
+                        <span>{{ noticia.data_publicacao|date:"d \d\e F \d\e Y" }}</span>
+                        <span>•</span>
+                        <span>Por: <strong>{{noticia.autor.nome}} : {{noticia.autor.perfil}}</strong></span>
+                    </div>
+
+                    <!-- Imagem de Destaque -->
+                    {% if noticia.foto %}
+                        <img src="{{ noticia.foto.url }}" alt="{{ noticia.titulo }}" class="img-fluid rounded-3 mb-4 shadow-sm" style="width: 100%; max-height: 350px; object-fit: cover;">
+                    {% else %}
+                        <img src="https://placehold.co/800x400/004080/FFFFFF?text=Imagem+Indisponível" alt="Imagem não encontrada" class="img-fluid rounded-3 mb-4">
+                    {% endif %}
+
+                    <!-- Conteúdo Completo da Notícia -->
+                    <section class="fs-5 text-secondary">
+                        <p>{{ noticia.conteudo|linebreaks }}</p>
+                    </section>
+
+                    <!-- Botão para voltar -->
+                    <div class="mt-5 text-center">
+                        <a href="{% url 'retornar' %}" class="btn btn-outline-primary fw-semibold py-2 px-4 rounded-3">
+                            ← Voltar para Todas as Notícias
+                        </a>
+                    </div>
+                </article>
+            </div>
+
+            <!-- Coluna Lateral (Sidebar ) - Reutilizada do seu código original -->
+            <div class="col-lg-4 d-grid gap-4">
+                <div class="card p-4 shadow-lg news-card-highlight">
+                    <h3 class="fs-5 fw-bold mb-4 text-primary">Faça Parte do SINDCODE</h3>
+                    <p class="text-secondary mb-4 small">
+                        Cadastre-se para ter acesso a benefícios exclusivos, assistência jurídica e manter-se informado sobre as lutas nos quadros do Sistema S.
+                    </p>
+                    <form>
+                        <div class="mb-3">
+                            <input type="text" placeholder="Seu Nome Completo" required class="form-control form-control-lg rounded-3">
+                        </div>
+                        <div class="mb-4">
+                            <input type="email" placeholder="Seu melhor E-mail" required class="form-control form-control-lg rounded-3">
+                        </div>
+                        <button type="submit" class="btn btn-info btn-lg w-100 text-white fw-bold rounded-3 shadow-sm">
+                            Iniciar Cadastro Completo
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+{% endblock %}

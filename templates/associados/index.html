@@ -1,0 +1,22 @@
+{% extends 'noticias/base.html'}
+{% load static}
+{% block content}
+    <h4>Cadastro de Associado</h4>
+    <form>
+        CPF <input type="text" name="cpf">
+        RG <input type="text" name="rg">
+        Nome Completo <input type="text" name="nome">
+        Nome Completo <input type="text" name="nome_social">
+        Genero
+        <select>
+            <option>Masculino</option>
+            <option>Feminino</option>
+            <option>Outros</option>
+            <option>Prefiro não responder</option>
+        </select>
+        Data Nascimento
+        <input type="date" name="dt_nasc">
+        <input type="submit" value="cadastrar">
+
+    </form>
+{% endblock %}

@@ -1,0 +1,87 @@
+{% extends 'noticias/base.html' %}
+{% load static %}
+
+{% block content %}
+<div id="site" class="bg-light min-vh-100">
+    <main class="container py-5">
+
+        <div class="text-center mb-5">
+            <h2 class="fw-bold text-primary d-inline-block border-bottom border-info border-3 pb-2">
+                Resultados da Pesquisa
+            </h2>
+        </div>
+
+        {% if noticias %}
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3 justify-content-center">
+
+                {% for noticia in noticias %}
+                <div class="col">
+                    <div class="card h-100 shadow-sm border-0 hover-shadow transition-card">
+
+                        <div class="position-relative">
+                            {% if noticia.foto %}
+                                <img src="{{ noticia.foto.url }}" class="card-img-top" alt="{{ noticia.titulo }}"
+                                     style="height: 220px; object-fit: cover;">
+                            {% else %}
+                                <img src="{% static '/assets/imagens/noticias/notfound.jpg' %}" class="card-img-top"
+                                     alt="Sem imagem" style="height: 220px; object-fit: cover;">
+                            {% endif %}
+
+                            <span class="position-absolute top-0 end-0 badge bg-info text-white m-2 shadow-sm">
+                                {{ noticia.categoria.nome }}
+                            </span>
+                        </div>
+
+                        <div class="card-body d-flex flex-column p-4">
+                            <small class="text-muted mb-2 d-block">
+                                <i class="bi bi-calendar-event me-1"></i>{{ noticia.data_publicacao|date:"d/m/Y" }}
+                            </small>
+
+                            <h5 class="card-title fw-bold text-dark mb-3">
+                                {{ noticia.titulo|truncatechars:45 }}
+                            </h5>
+
+                            <p class="card-text small text-secondary mb-4 flex-grow-1">
+                                {{ noticia.conteudo|striptags|truncatechars:80 }}
+                            </p>
+
+                            <div class="mt-auto border-top pt-3 d-flex justify-content-between align-items-center">
+                                <small class="text-muted fst-italic" style="font-size: 0.8rem;">
+                                    Por: {{ noticia.autor.nome|truncatewords:1 }}
+                                </small>
+                                <a href="{% url 'noticias_detalhes' noticia.id %}" class="btn btn-outline-primary btn-sm rounded-pill px-3 stretched-link">
+                                    Ler notícia
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+        {% else %}
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6">
+                    <div class="alert alert-warning text-center shadow-sm py-5" role="alert">
+                        <h4 class="alert-heading fw-bold mb-3">Ops!</h4>
+                        <p class="mb-0">Nenhum resultado encontrado para sua pesquisa.</p>
+                        <hr>
+                        <a href="{% url 'index' %}" class="btn btn-warning text-white fw-bold mt-2">Voltar ao Início</a>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+    </main>
+</div>
+
+<style>
+    .transition-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .transition-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+    }
+</style>
+{% endblock %}
